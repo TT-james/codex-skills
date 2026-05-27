@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Knowledge Graph"
+  short_description: "Choose and reuse project knowledge graph tools."
+  default_prompt: "Use $project-knowledge-graph to build a concise project graph context before coding."
