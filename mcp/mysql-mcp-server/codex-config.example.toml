@@ -1,0 +1,16 @@
+[mcp_servers.mysql_mcp_server]
+command = "node"
+args = ["D:/path/to/mysql-mcp-server/src/server.js"]
+enabled = true
+startup_timeout_sec = 20
+tool_timeout_sec = 60
+default_tools_approval_mode = "prompt"
+
+[mcp_servers.mysql_mcp_server.env]
+MYSQL_HOST = "127.0.0.1"
+MYSQL_PORT = "3306"
+MYSQL_DATABASE = "your_database"
+MYSQL_USER = "codex_reader"
+MYSQL_PASSWORD = "replace-with-local-readonly-password"
+MYSQL_MAX_ROWS = "50"
+MYSQL_DENY_TABLES = "users,admins,salaries"

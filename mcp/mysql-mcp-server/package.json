@@ -1,0 +1,28 @@
+{
+  "name": "mysql-mcp-server",
+  "version": "0.1.0",
+  "description": "Generic read-only local MySQL MCP server for Codex.",
+  "license": "MIT",
+  "main": "src/server.js",
+  "files": [
+    "src",
+    "README.md",
+    ".env.example",
+    "codex-config.example.toml"
+  ],
+  "bin": {
+    "mysql-mcp-server": "src/server.js"
+  },
+  "scripts": {
+    "test": "node tests/queryGuard.test.js && node tests/serverProtocol.test.js",
+    "smoke": "node scripts/smoke.js",
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "mysql2": "2.3.3"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}
