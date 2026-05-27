@@ -1,12 +1,12 @@
-# Codex Skills 技能库
+# Codex Skills
 
-这个仓库用于备份和共享本地 Codex 环境中生成的可复用技能。
+This repository is a backup and sharing space for reusable Codex skills.
 
-源仓库：https://github.com/TT-james/codex-skills.git
+Source repository: https://github.com/TT-james/codex-skills.git
 
-## 技能索引
+## Skill Index
 
-| 技能 | 用途 | 路径 |
+| Skill | What it does | Path |
 | --- | --- | --- |
 | `codegraph-project-knowledge` | Build, refresh, and query a project-local CodeGraph knowledge graph before coding. Use when entering a new repository, onboarding Codex or subagents to an unfamiliar codebase, reducing repeated repository-wide searches, planning multi-agent work from code structure, investigating impact of changes, or needing semantic context from CodeGraph CLI/MCP. | `skills/codegraph-project-knowledge` |
 | `project-knowledge-graph` | Orchestrate CodeGraph and Understand-Anything for project knowledge graphs before coding. Use when entering a new repository, onboarding Codex or subagents, choosing between semantic code search and visual/chat project maps, reducing repeated repository scans, preparing multi-agent context, analyzing impact, or reusing durable project graph summaries. | `skills/project-knowledge-graph` |
@@ -14,17 +14,17 @@
 | `sync-skills-to-github` | Synchronize locally generated Codex skills to the user's GitHub skills repository, defaulting to TT-james/codex-skills.git. Use when the user asks to upload, publish, back up, mirror, or sync local Codex skills to GitHub, and when they need bilingual Chinese/English documentation describing what each skill does, how to use it, and how to apply or install it in Codex. | `skills/sync-skills-to-github` |
 | `understand-anything-project-knowledge` | Build, inspect, and reuse project knowledge graphs with Understand-Anything before coding. Use when entering a new repository, onboarding Codex or subagents to an unfamiliar codebase, creating a visual or chat-based project map, reducing repeated repository scans, planning multi-agent work, reviewing change impact, or needing a durable `.understand-anything/knowledge-graph.json` context. | `skills/understand-anything-project-knowledge` |
 
-## 如何应用到 Codex
+## How to Use in Codex
 
-1. 从 `skills/<skill-name>` 复制需要的技能目录到本地 `~/.codex/skills/<skill-name>`。
-2. 如果当前 Codex 环境不会自动发现新技能，请重启或刷新 Codex。
-3. 可以用 `$skill-name` 显式调用技能，也可以直接提出与技能描述匹配的任务。
-4. 阅读技能目录里的 `SKILL.md`，了解工作流、脚本、参考资料和使用限制。
+1. Copy the skill folder you need from `skills/<skill-name>` into your local `~/.codex/skills/<skill-name>` directory.
+2. Restart or refresh Codex if your environment does not auto-discover new skills.
+3. Invoke the skill explicitly with `$skill-name`, or ask for a task that matches the skill description.
+4. Open the skill's `SKILL.md` to see its workflow, scripts, references, and usage constraints.
 
-## 如何更新这个仓库
+## How to Update This Repository
 
-在本地 Codex 中使用 `$sync-skills-to-github`，让 Codex 将本地技能同步到 GitHub。同步过程会复制本地技能目录、重新生成中英文文档、提交变更，并在认证可用时推送到仓库。
+Run the local Codex skill `$sync-skills-to-github` and ask Codex to sync local skills to GitHub. The sync process copies local skill folders, regenerates these docs, commits the changes, and pushes them to the repository when authentication is available.
 
-## 注意事项
+## Notes
 
-如果技能中可能包含项目内部路径、业务规则、密钥、客户数据或其他私密信息，发布前请先检查生成的变更。
+Review generated changes before publishing if a skill may contain private project paths, internal business rules, credentials, or customer data.

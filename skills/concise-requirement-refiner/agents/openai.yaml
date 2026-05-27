@@ -1,7 +1,0 @@
-interface:
-  display_name: "简洁需求整理"
-  short_description: "把模糊业务内容整理成可开发的简洁字段化需求。"
-  default_prompt: "Use $concise-requirement-refiner to turn a fuzzy business request into a concise field-focused requirement draft."
-
-policy:
-  allow_implicit_invocation: true

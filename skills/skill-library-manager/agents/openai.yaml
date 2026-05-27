@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Library Manager"
+  short_description: "Audit, curate, and publish Codex skills."
+  default_prompt: "Use -library-manager to audit my installed Codex skills and publish the curated set."
