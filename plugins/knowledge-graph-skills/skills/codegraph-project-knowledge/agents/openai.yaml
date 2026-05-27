@@ -1,4 +1,0 @@
-interface:
-  display_name: "CodeGraph Project Knowledge"
-  short_description: "Build and query project knowledge graphs with CodeGraph."
-  default_prompt: "Use $codegraph-project-knowledge to index this project and query its code knowledge graph before development."

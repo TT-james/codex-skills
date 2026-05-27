@@ -1,4 +1,0 @@
-interface:
-  display_name: "Understand Anything Project Knowledge"
-  short_description: "Build project knowledge graphs with Understand Anything."
-  default_prompt: "Use $understand-anything-project-knowledge to analyze this project and share a concise knowledge graph context before development."
