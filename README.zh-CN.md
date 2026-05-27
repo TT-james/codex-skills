@@ -1,30 +1,33 @@
-# Codex Skills 中文说明
+# Codex 技能整合库
 
 **语言:** [English](README.md) | 简体中文
 
-[![Codex Skills](https://img.shields.io/badge/Codex-Skills-2563EB)](https://github.com/TT-james/codex-skills)
-[![Knowledge Graph](https://img.shields.io/badge/Focus-Knowledge%20Graph-16A34A)](skills/project-knowledge-graph)
-[![Plugin Ready](https://img.shields.io/badge/Plugin-Ready-7C3AED)](plugins/knowledge-graph-skills)
+[![Codex Skills](https://img.shields.io/badge/Codex-Custom%20Skills-2563EB)](https://github.com/TT-james/codex-skills)
+[![Skill Hub](https://img.shields.io/badge/Hub-Skills%20%2B%20Docs-16A34A)](skills)
+[![Plugin Optional](https://img.shields.io/badge/Plugin-Optional-7C3AED)](plugins/knowledge-graph-skills)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-这个仓库用于集中管理和分发可复用的 Codex skills。当前重点是项目知识图谱技能：让 Codex 在进入新项目、分析代码影响面、编排多 Agent 开发前，先复用已有项目结构和语义上下文，减少反复全仓检索带来的 token 消耗。
+这是一个 Codex 自定义技能整合库，用于集中沉淀、管理和分发本地生成的可复用技能及说明文档。
+
+它不是单一技能包，也不只服务于知识图谱场景。仓库会持续收纳自定义 `skills/`、参考文档、辅助脚本和可选插件封装，让不同 Codex 环境可以复用同一套能力。目前已包含项目知识图谱、AI 推广案例 Word 文档生成、技能库治理和 GitHub 同步等技能。
 
 ---
 
-## 快速选择
+## 快速选择需要的技能
 
-大多数人只需要安装融合版技能:
+建议只安装当前任务需要的技能。每个技能都位于 `skills/<skill-name>/`，并包含自己的 `SKILL.md`、参考资料、脚本和可选 UI 元信息。
 
-```text
-project-knowledge-graph
-```
-
-它会根据当前环境和任务自动选择 CodeGraph、Understand-Anything、双工具混合模式，或在工具不可用时降级到 `rg --files`、`rg` 和目标文件直接读取。
+| 使用场景 | 推荐技能 |
+|---|---|
+| 进入新项目、理解代码结构、给多 Agent 准备上下文 | `project-knowledge-graph` |
+| 基于 Codex 历史会话生成中文 AI 推广案例 Word 文档 | `ai-promotion-case-doc` |
+| 审计、整理、去重、发布本地技能库 | `skill-library-manager` |
+| 将本地自定义技能同步到 GitHub 仓库 | `sync-skills-to-github` |
 
 ```bash
 python <skill-installer-dir>/scripts/install-skill-from-github.py \
   --repo TT-james/codex-skills \
-  --path skills/project-knowledge-graph
+  --path skills/<skill-name>
 ```
 
 安装后请重启 Codex，让新技能被重新扫描并加载。
@@ -52,7 +55,15 @@ python <skill-installer-dir>/scripts/install-skill-from-github.py \
 
 ### 方式一：通过 GitHub 安装单个技能
 
-安装融合版:
+示例：安装 AI 推广案例 Word 文档生成技能:
+
+```bash
+python <skill-installer-dir>/scripts/install-skill-from-github.py \
+  --repo TT-james/codex-skills \
+  --path skills/ai-promotion-case-doc
+```
+
+示例：安装项目知识图谱融合版:
 
 ```bash
 python <skill-installer-dir>/scripts/install-skill-from-github.py \
@@ -60,27 +71,19 @@ python <skill-installer-dir>/scripts/install-skill-from-github.py \
   --path skills/project-knowledge-graph
 ```
 
-安装 CodeGraph 单工具版:
+示例：安装技能同步工具:
 
 ```bash
 python <skill-installer-dir>/scripts/install-skill-from-github.py \
   --repo TT-james/codex-skills \
-  --path skills/codegraph-project-knowledge
-```
-
-安装 Understand-Anything 单工具版:
-
-```bash
-python <skill-installer-dir>/scripts/install-skill-from-github.py \
-  --repo TT-james/codex-skills \
-  --path skills/understand-anything-project-knowledge
+  --path skills/sync-skills-to-github
 ```
 
 ### 方式二：Windows 手动复制
 
 ```powershell
 git clone https://github.com/TT-james/codex-skills.git
-Copy-Item -Recurse .\codex-skills\skills\project-knowledge-graph C:\Users\<你的用户名>\.codex\skills\
+Copy-Item -Recurse .\codex-skills\skills\<skill-name> C:\Users\<你的用户名>\.codex\skills\
 ```
 
 常见 Codex skills 目录:
@@ -93,12 +96,12 @@ C:\Users\<你的用户名>\.codex\skills\
 
 ```bash
 git clone https://github.com/TT-james/codex-skills.git
-cp -r codex-skills/skills/project-knowledge-graph ~/.codex/skills/
+cp -r codex-skills/skills/<skill-name> ~/.codex/skills/
 ```
 
-### 方式四：插件包
+### 方式四：可选插件包
 
-仓库中提供了一个插件包:
+仓库中也提供了一个知识图谱技能插件包:
 
 ```text
 plugins/knowledge-graph-skills/
@@ -128,9 +131,21 @@ plugins/knowledge-graph-skills/
 使用 $understand-anything-project-knowledge 为这个仓库生成可视化/聊天式项目知识图谱。
 ```
 
+基于 Codex 历史会话生成 AI 推广案例 Word 文档:
+
+```text
+使用 $ai-promotion-case-doc 将这段 Codex 历史会话整理成 AI推广案例 Word 文档。
+```
+
+把本地自定义技能发布到这个 GitHub 仓库:
+
+```text
+使用 $sync-skills-to-github 将本地 Codex skills 同步到 TT-james/codex-skills。
+```
+
 ---
 
-## Codex 多 Agent 接入方式
+## 项目知识图谱接入方式
 
 建议主 Agent 在分派子 Agent 前先运行一次知识图谱技能，然后把同一份精简上下文传给规划、开发、测试、评审和发布文档角色。
 
@@ -169,7 +184,7 @@ Project knowledge graph context:
 
 ---
 
-## 外部工具说明
+## 知识图谱外部工具说明
 
 这些 skills 不会把 CodeGraph 或 Understand-Anything 工具源码打包进仓库。它们的作用是告诉 Codex 如何发现、调用、复用和降级处理这些工具。
 
@@ -197,9 +212,12 @@ Project knowledge graph context:
 
 ```text
 skills/
+  ai-promotion-case-doc/
   project-knowledge-graph/
   codegraph-project-knowledge/
   understand-anything-project-knowledge/
+  skill-library-manager/
+  sync-skills-to-github/
 
 plugins/
   knowledge-graph-skills/
@@ -224,7 +242,7 @@ README.zh-CN.md
 校验单个 skill:
 
 ```bash
-python <skill-creator-dir>/scripts/quick_validate.py skills/project-knowledge-graph
+python <skill-creator-dir>/scripts/quick_validate.py skills/<skill-name>
 ```
 
 校验插件包:

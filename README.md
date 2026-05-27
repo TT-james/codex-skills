@@ -1,32 +1,33 @@
-# Codex Skills
+# Codex Skill Hub
 
 **Language:** English | [简体中文](README.zh-CN.md)
 
-[![Codex Skills](https://img.shields.io/badge/Codex-Skills-2563EB)](https://github.com/TT-james/codex-skills)
-[![Knowledge Graph](https://img.shields.io/badge/Focus-Knowledge%20Graph-16A34A)](skills/project-knowledge-graph)
-[![Plugin Ready](https://img.shields.io/badge/Plugin-Ready-7C3AED)](plugins/knowledge-graph-skills)
+[![Codex Skills](https://img.shields.io/badge/Codex-Custom%20Skills-2563EB)](https://github.com/TT-james/codex-skills)
+[![Skill Hub](https://img.shields.io/badge/Hub-Skills%20%2B%20Docs-16A34A)](skills)
+[![Plugin Optional](https://img.shields.io/badge/Plugin-Optional-7C3AED)](plugins/knowledge-graph-skills)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Reusable Codex skills for project knowledge graph workflows.
+An integration repository for reusable Codex custom skills and their documentation.
 
-This repository is designed as a small, shareable Codex skill catalog. Its first package helps Codex understand a repository before coding by using CodeGraph, Understand-Anything, or a low-friction fallback path. The goal is to reduce repeated whole-repo scans, prepare better multi-agent context, and make project onboarding more consistent.
+This repository is not a single-purpose skill package. It collects self-built Codex skills, reference docs, helper scripts, and optional plugin packaging so the same capabilities can be reused across local Codex environments. Current skills cover project knowledge graphs, AI promotion case document generation, skill-library governance, and GitHub synchronization.
 
 ---
 
-## Start Here
+## Choose What You Need
 
-Most users should install only the integrated skill:
+Install only the skill you need. Each skill lives under `skills/<skill-name>/` with its own `SKILL.md`, references, scripts, and UI metadata when available.
 
-```text
-project-knowledge-graph
-```
-
-It decides whether to use CodeGraph, Understand-Anything, both tools, or plain `rg` fallback based on the current environment and task.
+| Need | Recommended skill |
+|---|---|
+| Understand a repository before coding or dispatching agents | `project-knowledge-graph` |
+| Generate Chinese AI promotion / AI usage case Word documents | `ai-promotion-case-doc` |
+| Audit, curate, or publish a local skill library | `skill-library-manager` |
+| Sync local custom skills to this GitHub repository | `sync-skills-to-github` |
 
 ```bash
 python <skill-installer-dir>/scripts/install-skill-from-github.py \
   --repo TT-james/codex-skills \
-  --path skills/project-knowledge-graph
+  --path skills/<skill-name>
 ```
 
 Restart Codex after installing new skills.
@@ -54,7 +55,15 @@ Restart Codex after installing new skills.
 
 ### Option 1: Install One Skill From GitHub
 
-Integrated skill:
+Example: install the AI promotion case document skill:
+
+```bash
+python <skill-installer-dir>/scripts/install-skill-from-github.py \
+  --repo TT-james/codex-skills \
+  --path skills/ai-promotion-case-doc
+```
+
+Example: install the integrated project knowledge graph skill:
 
 ```bash
 python <skill-installer-dir>/scripts/install-skill-from-github.py \
@@ -62,27 +71,19 @@ python <skill-installer-dir>/scripts/install-skill-from-github.py \
   --path skills/project-knowledge-graph
 ```
 
-CodeGraph-only skill:
+Example: install the skill sync helper:
 
 ```bash
 python <skill-installer-dir>/scripts/install-skill-from-github.py \
   --repo TT-james/codex-skills \
-  --path skills/codegraph-project-knowledge
-```
-
-Understand-Anything-only skill:
-
-```bash
-python <skill-installer-dir>/scripts/install-skill-from-github.py \
-  --repo TT-james/codex-skills \
-  --path skills/understand-anything-project-knowledge
+  --path skills/sync-skills-to-github
 ```
 
 ### Option 2: Manual Copy
 
 ```bash
 git clone https://github.com/TT-james/codex-skills.git
-cp -r codex-skills/skills/project-knowledge-graph ~/.codex/skills/
+cp -r codex-skills/skills/<skill-name> ~/.codex/skills/
 ```
 
 Windows target:
@@ -93,13 +94,13 @@ C:\Users\<you>\.codex\skills\
 
 ### Option 3: Plugin Package
 
-This repository also includes a plugin package:
+This repository also includes an optional plugin package for the knowledge graph skills:
 
 ```text
 plugins/knowledge-graph-skills/
 ```
 
-It bundles all three knowledge graph skills and is listed in:
+It bundles the three knowledge graph skills and is listed in:
 
 ```text
 marketplace.json
@@ -129,9 +130,21 @@ Use Understand-Anything directly when you need a project map:
 Use $understand-anything-project-knowledge to build a visual/chat-oriented project map.
 ```
 
+Generate an AI promotion case document from Codex history or implementation notes:
+
+```text
+Use $ai-promotion-case-doc to turn this Codex historical session into an AI推广案例 Word document.
+```
+
+Publish local custom skills to this repository:
+
+```text
+Use $sync-skills-to-github to sync my local Codex skills to TT-james/codex-skills.
+```
+
 ---
 
-## Codex Multi-Agent Pattern
+## Project Knowledge Graph Pattern
 
 Run the graph skill once before dispatching agents, then pass the same compact context to every role.
 
@@ -162,7 +175,7 @@ Suggested role usage:
 
 ---
 
-## External Tool Notes
+## Knowledge Graph Tool Notes
 
 These skills do not vendor CodeGraph or Understand-Anything. They orchestrate and document how Codex should use those tools when available.
 
@@ -192,9 +205,12 @@ If a tool is not installed, the skills instruct Codex to record the failure and 
 
 ```text
 skills/
+  ai-promotion-case-doc/
   project-knowledge-graph/
   codegraph-project-knowledge/
   understand-anything-project-knowledge/
+  skill-library-manager/
+  sync-skills-to-github/
 
 plugins/
   knowledge-graph-skills/
@@ -219,7 +235,7 @@ README.zh-CN.md
 Validate a skill:
 
 ```bash
-python <skill-creator-dir>/scripts/quick_validate.py skills/project-knowledge-graph
+python <skill-creator-dir>/scripts/quick_validate.py skills/<skill-name>
 ```
 
 Validate the plugin package:
