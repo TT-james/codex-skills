@@ -1,32 +1,27 @@
 # Codex Skills
 
-This repository collects reusable Codex skills created for project knowledge graph workflows.
+**Language:** English | [简体中文](README.zh-CN.md)
 
-中文说明: [README.zh-CN.md](README.zh-CN.md)
+[![Codex Skills](https://img.shields.io/badge/Codex-Skills-2563EB)](https://github.com/TT-james/codex-skills)
+[![Knowledge Graph](https://img.shields.io/badge/Focus-Knowledge%20Graph-16A34A)](skills/project-knowledge-graph)
+[![Plugin Ready](https://img.shields.io/badge/Plugin-Ready-7C3AED)](plugins/knowledge-graph-skills)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-## Included Skills
+Reusable Codex skills for project knowledge graph workflows.
 
-| Skill | Purpose | Best For |
-|---|---|---|
-| `project-knowledge-graph` | Unified project knowledge graph orchestrator that chooses CodeGraph, Understand-Anything, hybrid mode, or fallback. | New repository onboarding, multi-agent planning, impact analysis, reducing repeated scans. |
-| `codegraph-project-knowledge` | Builds, refreshes, and queries a CodeGraph-backed local project code graph. | Semantic code search, symbols, callers, candidate files, implementation entry points, impact analysis. |
-| `understand-anything-project-knowledge` | Builds and reuses Understand-Anything project knowledge graph context. | Visual project maps, dashboard/chat/explain/diff workflows, shared project understanding. |
+This repository is designed as a small, shareable Codex skill catalog. Its first package helps Codex understand a repository before coding by using CodeGraph, Understand-Anything, or a low-friction fallback path. The goal is to reduce repeated whole-repo scans, prepare better multi-agent context, and make project onboarding more consistent.
 
-## Recommended Skill
+---
 
-Most users should install:
+## Start Here
+
+Most users should install only the integrated skill:
 
 ```text
 project-knowledge-graph
 ```
 
-It is the integrated skill that decides whether to use CodeGraph, Understand-Anything, both, or a plain `rg` fallback.
-
-## Install A Skill Into Codex
-
-Use Codex's `skill-installer` workflow to install from this GitHub repository.
-
-Install the integrated skill:
+It decides whether to use CodeGraph, Understand-Anything, both tools, or plain `rg` fallback based on the current environment and task.
 
 ```bash
 python <skill-installer-dir>/scripts/install-skill-from-github.py \
@@ -34,7 +29,35 @@ python <skill-installer-dir>/scripts/install-skill-from-github.py \
   --path skills/project-knowledge-graph
 ```
 
-Install the CodeGraph-only skill:
+Restart Codex after installing new skills.
+
+> Important: pick one install path. Use either the GitHub skill installer, manual copy, or plugin package. Do not install the same skill through multiple paths unless you intentionally want duplicate local copies.
+
+---
+
+## Included Skills
+
+| Skill | Purpose | Best For |
+|---|---|---|
+| [`project-knowledge-graph`](skills/project-knowledge-graph) | Unified project knowledge graph orchestrator that chooses CodeGraph, Understand-Anything, hybrid mode, or fallback. | New repository onboarding, multi-agent planning, impact analysis, reducing repeated scans. |
+| [`codegraph-project-knowledge`](skills/codegraph-project-knowledge) | Builds, refreshes, and queries a CodeGraph-backed local project code graph. | Semantic code search, symbols, callers, candidate files, implementation entry points, impact analysis. |
+| [`understand-anything-project-knowledge`](skills/understand-anything-project-knowledge) | Builds and reuses Understand-Anything project knowledge graph context. | Visual project maps, dashboard/chat/explain/diff workflows, shared project understanding. |
+
+---
+
+## Install Options
+
+### Option 1: Install One Skill From GitHub
+
+Integrated skill:
+
+```bash
+python <skill-installer-dir>/scripts/install-skill-from-github.py \
+  --repo TT-james/codex-skills \
+  --path skills/project-knowledge-graph
+```
+
+CodeGraph-only skill:
 
 ```bash
 python <skill-installer-dir>/scripts/install-skill-from-github.py \
@@ -42,7 +65,7 @@ python <skill-installer-dir>/scripts/install-skill-from-github.py \
   --path skills/codegraph-project-knowledge
 ```
 
-Install the Understand-Anything-only skill:
+Understand-Anything-only skill:
 
 ```bash
 python <skill-installer-dir>/scripts/install-skill-from-github.py \
@@ -50,36 +73,20 @@ python <skill-installer-dir>/scripts/install-skill-from-github.py \
   --path skills/understand-anything-project-knowledge
 ```
 
-Install all three:
-
-```bash
-python <skill-installer-dir>/scripts/install-skill-from-github.py \
-  --repo TT-james/codex-skills \
-  --path skills/project-knowledge-graph \
-  --path skills/codegraph-project-knowledge \
-  --path skills/understand-anything-project-knowledge
-```
-
-Restart Codex after installing new skills.
-
-## Manual Install
-
-Clone this repository and copy a skill folder into your Codex skills directory:
+### Option 2: Manual Copy
 
 ```bash
 git clone https://github.com/TT-james/codex-skills.git
 cp -r codex-skills/skills/project-knowledge-graph ~/.codex/skills/
 ```
 
-On Windows, copy to:
+Windows target:
 
 ```text
 C:\Users\<you>\.codex\skills\
 ```
 
-Restart Codex after copying.
-
-## Plugin Package
+### Option 3: Plugin Package
 
 This repository also includes a plugin package:
 
@@ -93,7 +100,9 @@ It bundles all three knowledge graph skills and is listed in:
 marketplace.json
 ```
 
-Use this package if your Codex environment supports installing plugins from a repository marketplace source.
+Use this path when your Codex environment supports repository-backed plugin marketplace entries.
+
+---
 
 ## Usage Examples
 
@@ -115,6 +124,39 @@ Use Understand-Anything directly when you need a project map:
 Use $understand-anything-project-knowledge to build a visual/chat-oriented project map.
 ```
 
+---
+
+## Codex Multi-Agent Pattern
+
+Run the graph skill once before dispatching agents, then pass the same compact context to every role.
+
+```markdown
+Project knowledge graph context:
+- Project root:
+- Tool path: CodeGraph / Understand-Anything / Hybrid / Fallback
+- Graph status:
+- Relevant modules:
+- Entry points:
+- Candidate files:
+- Symbol/caller/impact findings:
+- Visual/chat/dashboard findings:
+- Exclusions/blind spots:
+- Staleness:
+- Required verification:
+```
+
+Suggested role usage:
+
+| Role | How it uses the graph |
+|---|---|
+| Planner | Converts graph findings into task boundaries, dependency order, and unknowns. |
+| Developer | Opens the graph-derived candidate files directly before editing. |
+| Tester | Builds smoke and regression paths from entry points and impacted files. |
+| Reviewer | Compares the diff against semantic impact and dependency paths. |
+| Release writer | Records graph freshness, fallback analysis, and validation evidence. |
+
+---
+
 ## External Tool Notes
 
 These skills do not vendor CodeGraph or Understand-Anything. They orchestrate and document how Codex should use those tools when available.
@@ -123,6 +165,23 @@ These skills do not vendor CodeGraph or Understand-Anything. They orchestrate an
 - Understand-Anything: https://github.com/Lum1104/Understand-Anything
 
 If a tool is not installed, the skills instruct Codex to record the failure and fall back to `rg --files`, `rg`, and direct file reads.
+
+---
+
+## Docs
+
+| Document | Description |
+|---|---|
+| [Chinese README](README.zh-CN.md) | Full Chinese overview, installation, and usage guide. |
+| [Quick Start](docs/QUICKSTART.md) | Short install and first-use guide. |
+| [中文快速开始](docs/zh-CN/QUICKSTART.md) | 中文安装和首次使用说明。 |
+| [Skill Catalog](docs/SKILL_CATALOG.md) | Detailed skill comparison and selection guide. |
+| [中文技能目录](docs/zh-CN/SKILL_CATALOG.md) | 中文技能能力矩阵和选择建议。 |
+| [Troubleshooting](docs/TROUBLESHOOTING.md) | Common install, loading, and graph-tool issues. |
+| [中文排障指南](docs/zh-CN/TROUBLESHOOTING.md) | 中文常见问题处理。 |
+| [Contributing](CONTRIBUTING.md) | How to add or update skills in this repository. |
+
+---
 
 ## Repository Layout
 
@@ -137,19 +196,35 @@ plugins/
     .codex-plugin/plugin.json
     skills/
 
+docs/
+  QUICKSTART.md
+  SKILL_CATALOG.md
+  TROUBLESHOOTING.md
+  zh-CN/
+
 marketplace.json
+README.md
+README.zh-CN.md
 ```
+
+---
 
 ## Validation
 
-Before publishing a skill, validate it with:
+Validate a skill:
 
 ```bash
 python <skill-creator-dir>/scripts/quick_validate.py skills/project-knowledge-graph
 ```
 
-Validate the plugin package with:
+Validate the plugin package:
 
 ```bash
 python <plugin-creator-dir>/scripts/validate_plugin.py plugins/knowledge-graph-skills
 ```
+
+---
+
+## License
+
+MIT. Use freely, adapt for your team, and keep useful skills shareable.
