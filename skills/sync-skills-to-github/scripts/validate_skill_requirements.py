@@ -66,9 +66,9 @@ def validate_static_files(checks: list[Check]) -> None:
     )
     record(
         checks,
-        "documentation reference defines bilingual output",
-        contains_all(reference, ["README.en.md", "README.zh-CN.md", "How to use in Codex"]),
-        "references/documentation-format.md must define English and Chinese docs plus Codex usage content.",
+        "documentation reference protects repository templates",
+        contains_all(reference, ["Do not rewrite established repository templates", "sync-skills:skills:start", "README.zh-CN.md"]),
+        "references/documentation-format.md must define template preservation and marker-block updates.",
     )
 
 
@@ -82,9 +82,9 @@ def validate_sync_module(checks: list[Check]) -> None:
     )
     record(
         checks,
-        "generated documentation files are complete",
+        "documentation file list is configured",
         set(getattr(module, "GENERATED_FILES", [])) == {"README.md", "README.en.md", "README.zh-CN.md"},
-        "sync script must generate README.md, README.en.md, and README.zh-CN.md.",
+        "sync script must know README.md, README.en.md, and README.zh-CN.md.",
     )
 
     skill = module.SkillInfo(
@@ -111,6 +111,22 @@ def validate_sync_module(checks: list[Check]) -> None:
         "root README links both languages",
         contains_all(docs["README.md"], ["README.en.md", "README.zh-CN.md", "中文"]),
         "README.md must link English and Chinese documentation.",
+    )
+    original = "# Custom README\n\nKeep this template.\n"
+    updated, did_replace = module.replace_marked_block(original, module.render_skill_table([skill], "en"))
+    record(
+        checks,
+        "unmarked README templates are preserved",
+        not did_replace and updated == original,
+        "Existing docs without sync marker blocks must remain unchanged.",
+    )
+    marked = f"# Custom README\n\n{module.START_MARKER}\nold\n{module.END_MARKER}\n"
+    updated, did_replace = module.replace_marked_block(marked, module.render_skill_table([skill], "en"))
+    record(
+        checks,
+        "marked README blocks are updated narrowly",
+        did_replace and "old" not in updated and "Custom README" in updated and "skills/demo-skill" in updated,
+        "Existing docs may only update the marked skill-index block.",
     )
 
 

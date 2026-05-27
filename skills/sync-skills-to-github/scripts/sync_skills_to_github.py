@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Sync local Codex skills to a GitHub repository and generate bilingual docs."""
+"""Sync local Codex skills to a GitHub repository without rewriting repo templates."""
 
 from __future__ import annotations
 
@@ -14,7 +14,10 @@ from pathlib import Path
 
 DEFAULT_REPO_URL = "https://github.com/TT-james/codex-skills.git"
 DEFAULT_BRANCH = "main"
-GENERATED_FILES = ["README.md", "README.en.md", "README.zh-CN.md"]
+DOC_FILES = ["README.md", "README.en.md", "README.zh-CN.md"]
+GENERATED_FILES = DOC_FILES
+START_MARKER = "<!-- sync-skills:skills:start -->"
+END_MARKER = "<!-- sync-skills:skills:end -->"
 
 
 @dataclass
@@ -94,11 +97,10 @@ def ensure_clean_or_generated(repo_dir: Path) -> None:
     if not status:
         return
 
-    allowed_paths = set(GENERATED_FILES)
     unsafe = []
     for line in status:
         path = line[3:]
-        if path in allowed_paths or path.startswith("skills/"):
+        if path.startswith("skills/"):
             continue
         unsafe.append(line)
     if unsafe:
@@ -122,22 +124,30 @@ def sync_skill_files(skills: list[SkillInfo], repo_dir: Path) -> None:
         shutil.copytree(skill.source, destination, ignore=ignore_patterns)
 
 
-def render_docs(skills: list[SkillInfo], repo_url: str) -> dict[str, str]:
-    skill_rows_en = "\n".join(
-        f"| `{skill.name}` | {skill.description} | `{skill.destination}` |" for skill in skills
-    )
-    skill_rows_zh = "\n".join(
-        f"| `{skill.name}` | {skill.description} | `{skill.destination}` |" for skill in skills
-    )
+def render_skill_table(skills: list[SkillInfo], language: str) -> str:
+    if language == "zh":
+        header = "| 技能 | 用途 | 路径 |\n| --- | --- | --- |"
+    else:
+        header = "| Skill | What it does | Path |\n| --- | --- | --- |"
+    rows = "\n".join(f"| `{skill.name}` | {skill.description} | `{skill.destination}` |" for skill in skills)
+    return f"{START_MARKER}\n{header}\n{rows}\n{END_MARKER}"
 
-    readme = """# Codex Skills
+
+def render_docs(skills: list[SkillInfo], repo_url: str) -> dict[str, str]:
+    """Return fallback docs used only when a target repository has no template files."""
+    en_table = render_skill_table(skills, "en")
+    zh_table = render_skill_table(skills, "zh")
+    readme = f"""# Codex Skills
 
 This repository stores reusable Codex skills synchronized from a local Codex environment.
 
 - English: [README.en.md](README.en.md)
 - 中文: [README.zh-CN.md](README.zh-CN.md)
-"""
 
+## Skill Index
+
+{en_table}
+"""
     en = f"""# Codex Skills
 
 This repository is a backup and sharing space for reusable Codex skills.
@@ -146,100 +156,82 @@ Source repository: {repo_url}
 
 ## Skill Index
 
-| Skill | What it does | Path |
-| --- | --- | --- |
-{skill_rows_en}
+{en_table}
 
 ## How to Use in Codex
 
-1. Copy the skill folder you need from `skills/<skill-name>` into your local `~/.codex/skills/<skill-name>` directory.
-2. Restart or refresh Codex if your environment does not auto-discover new skills.
-3. Invoke the skill explicitly with `$skill-name`, or ask for a task that matches the skill description.
-4. Open the skill's `SKILL.md` to see its workflow, scripts, references, and usage constraints.
+Copy the skill folder you need from `skills/<skill-name>` into your local `~/.codex/skills/<skill-name>` directory, then restart Codex and invoke the skill with `$skill-name`.
 
 ## How to Update This Repository
 
-Run the local Codex skill `$sync-skills-to-github` and ask Codex to sync local skills to GitHub. The sync process copies local skill folders, regenerates these docs, commits the changes, and pushes them to the repository when authentication is available.
-
-## Notes
-
-Review generated changes before publishing if a skill may contain private project paths, internal business rules, credentials, or customer data.
+Run `$sync-skills-to-github` from the local Codex environment. The sync copies local skill folders and updates only marked documentation blocks.
 """
-
     zh = f"""# Codex Skills 技能库
 
-这个仓库用于备份和共享本地 Codex 环境中生成的可复用技能。
+这个仓库用于备份和共享本地 Codex 环境中的可复用技能。
 
 源仓库：{repo_url}
 
 ## 技能索引
 
-| 技能 | 用途 | 路径 |
-| --- | --- | --- |
-{skill_rows_zh}
+{zh_table}
 
 ## 如何应用到 Codex
 
-1. 从 `skills/<skill-name>` 复制需要的技能目录到本地 `~/.codex/skills/<skill-name>`。
-2. 如果当前 Codex 环境不会自动发现新技能，请重启或刷新 Codex。
-3. 可以用 `$skill-name` 显式调用技能，也可以直接提出与技能描述匹配的任务。
-4. 阅读技能目录里的 `SKILL.md`，了解工作流、脚本、参考资料和使用限制。
+从 `skills/<skill-name>` 复制需要的技能目录到本地 `~/.codex/skills/<skill-name>`，然后重启 Codex，并用 `$skill-name` 调用。
 
 ## 如何更新这个仓库
 
-在本地 Codex 中使用 `$sync-skills-to-github`，让 Codex 将本地技能同步到 GitHub。同步过程会复制本地技能目录、重新生成中英文文档、提交变更，并在认证可用时推送到仓库。
-
-## 注意事项
-
-如果技能中可能包含项目内部路径、业务规则、密钥、客户数据或其他私密信息，发布前请先检查生成的变更。
+在本地 Codex 中使用 `$sync-skills-to-github`。同步过程只复制本地技能目录，并且只更新文档中的固定标记区块。
 """
-
-    readme = """# Codex Skills
-
-This repository stores reusable Codex skills synchronized from a local Codex environment.
-
-- English: [README.en.md](README.en.md)
-- \u4e2d\u6587: [README.zh-CN.md](README.zh-CN.md)
-"""
-
-    zh = f"""# Codex Skills \u6280\u80fd\u5e93
-
-\u8fd9\u4e2a\u4ed3\u5e93\u7528\u4e8e\u5907\u4efd\u548c\u5171\u4eab\u672c\u5730 Codex \u73af\u5883\u4e2d\u751f\u6210\u7684\u53ef\u590d\u7528\u6280\u80fd\u3002
-
-\u6e90\u4ed3\u5e93\uff1a{repo_url}
-
-## \u6280\u80fd\u7d22\u5f15
-
-| \u6280\u80fd | \u7528\u9014 | \u8def\u5f84 |
-| --- | --- | --- |
-{skill_rows_zh}
-
-## \u5982\u4f55\u5e94\u7528\u5230 Codex
-
-1. \u4ece `skills/<skill-name>` \u590d\u5236\u9700\u8981\u7684\u6280\u80fd\u76ee\u5f55\u5230\u672c\u5730 `~/.codex/skills/<skill-name>`\u3002
-2. \u5982\u679c\u5f53\u524d Codex \u73af\u5883\u4e0d\u4f1a\u81ea\u52a8\u53d1\u73b0\u65b0\u6280\u80fd\uff0c\u8bf7\u91cd\u542f\u6216\u5237\u65b0 Codex\u3002
-3. \u53ef\u4ee5\u7528 `$skill-name` \u663e\u5f0f\u8c03\u7528\u6280\u80fd\uff0c\u4e5f\u53ef\u4ee5\u76f4\u63a5\u63d0\u51fa\u4e0e\u6280\u80fd\u63cf\u8ff0\u5339\u914d\u7684\u4efb\u52a1\u3002
-4. \u9605\u8bfb\u6280\u80fd\u76ee\u5f55\u91cc\u7684 `SKILL.md`\uff0c\u4e86\u89e3\u5de5\u4f5c\u6d41\u3001\u811a\u672c\u3001\u53c2\u8003\u8d44\u6599\u548c\u4f7f\u7528\u9650\u5236\u3002
-
-## \u5982\u4f55\u66f4\u65b0\u8fd9\u4e2a\u4ed3\u5e93
-
-\u5728\u672c\u5730 Codex \u4e2d\u4f7f\u7528 `$sync-skills-to-github`\uff0c\u8ba9 Codex \u5c06\u672c\u5730\u6280\u80fd\u540c\u6b65\u5230 GitHub\u3002\u540c\u6b65\u8fc7\u7a0b\u4f1a\u590d\u5236\u672c\u5730\u6280\u80fd\u76ee\u5f55\u3001\u91cd\u65b0\u751f\u6210\u4e2d\u82f1\u6587\u6587\u6863\u3001\u63d0\u4ea4\u53d8\u66f4\uff0c\u5e76\u5728\u8ba4\u8bc1\u53ef\u7528\u65f6\u63a8\u9001\u5230\u4ed3\u5e93\u3002
-
-## \u6ce8\u610f\u4e8b\u9879
-
-\u5982\u679c\u6280\u80fd\u4e2d\u53ef\u80fd\u5305\u542b\u9879\u76ee\u5185\u90e8\u8def\u5f84\u3001\u4e1a\u52a1\u89c4\u5219\u3001\u5bc6\u94a5\u3001\u5ba2\u6237\u6570\u636e\u6216\u5176\u4ed6\u79c1\u5bc6\u4fe1\u606f\uff0c\u53d1\u5e03\u524d\u8bf7\u5148\u68c0\u67e5\u751f\u6210\u7684\u53d8\u66f4\u3002
-"""
-
     return {"README.md": readme, "README.en.md": en, "README.zh-CN.md": zh}
 
 
-def write_docs(repo_dir: Path, docs: dict[str, str]) -> None:
-    for name, content in docs.items():
-        (repo_dir / name).write_text(content, encoding="utf-8", newline="\n")
+def replace_marked_block(text: str, replacement: str) -> tuple[str, bool]:
+    start = text.find(START_MARKER)
+    end = text.find(END_MARKER)
+    if start == -1 or end == -1 or end < start:
+        return text, False
+    end += len(END_MARKER)
+    return text[:start] + replacement + text[end:], True
+
+
+def update_template_docs(repo_dir: Path, skills: list[SkillInfo], repo_url: str) -> list[str]:
+    """Preserve repository docs, updating only explicit sync marker blocks."""
+    fallback_docs = render_docs(skills, repo_url)
+    has_existing_template = any((repo_dir / name).exists() for name in DOC_FILES)
+    changed: list[str] = []
+    preserved: list[str] = []
+    for name in DOC_FILES:
+        path = repo_dir / name
+        if not path.exists():
+            if has_existing_template:
+                preserved.append(f"{name} not present; not created because repository template already exists")
+                continue
+            path.write_text(fallback_docs[name], encoding="utf-8", newline="\n")
+            changed.append(f"{name} created from fallback template")
+            continue
+
+        original = path.read_text(encoding="utf-8")
+        language = "zh" if name.endswith("zh-CN.md") else "en"
+        updated, did_replace = replace_marked_block(original, render_skill_table(skills, language))
+        if not did_replace:
+            preserved.append(f"{name} preserved; no sync marker block found")
+            continue
+        if updated != original:
+            path.write_text(updated, encoding="utf-8", newline="\n")
+            changed.append(f"{name} marker block updated")
+        else:
+            preserved.append(f"{name} marker block already current")
+
+    for line in preserved:
+        print(line)
+    return changed
 
 
 def commit_and_push(repo_dir: Path, message: str, branch: str, no_push: bool) -> tuple[bool, str]:
-    run(["git", "add", "skills", *GENERATED_FILES], cwd=repo_dir)
+    existing_docs = [name for name in DOC_FILES if (repo_dir / name).exists()]
+    run(["git", "add", "skills", *existing_docs], cwd=repo_dir)
     status = run(["git", "status", "--porcelain"], cwd=repo_dir).stdout.strip()
     if not status:
         return False, "No changes to commit."
@@ -284,7 +276,11 @@ def main() -> int:
         ensure_repo(args.repo_url, repo_dir, args.branch)
         ensure_clean_or_generated(repo_dir)
         sync_skill_files(skills, repo_dir)
-        write_docs(repo_dir, render_docs(skills, args.repo_url))
+        doc_changes = update_template_docs(repo_dir, skills, args.repo_url)
+        if doc_changes:
+            print("Documentation updates:")
+            for doc_change in doc_changes:
+                print(f" - {doc_change}")
         changed, message = commit_and_push(repo_dir, args.message, args.branch, args.no_push)
         print(message)
         if changed:
