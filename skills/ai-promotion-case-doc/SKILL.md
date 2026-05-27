@@ -60,7 +60,10 @@ If the evidence is incomplete, write the case from confirmed facts and mark infe
 
 ## Output Rules
 
-- Default output directory: place generated cases beside the source history or in a user-provided target directory. If neither exists, create an `ai-promotion-cases/<yyyyMM>/` folder under the current workspace.
+- Default Word output directory: place the final Word document under `D:\Users\lenovo\Desktop\JZ\deepseek案例\<year>年<month>月\`, where `<year>` and `<month>` are the next calendar month relative to the current date. For example, if the current date is May 27, 2026, use `D:\Users\lenovo\Desktop\JZ\deepseek案例\2026年6月\`.
+- If the current month is December, roll over to January of the next year, for example December 2026 -> `D:\Users\lenovo\Desktop\JZ\deepseek案例\2027年1月\`.
+- Create the target month folder if it does not already exist.
+- Keep the Markdown source beside the final Word document unless the user asks for a different source location.
 - Filename pattern: `<序号或日期>-<主题>_AI推广案例_<作者或团队>.md` and the same basename with `.doc`.
 - Use the user's reference document for structure and tone, but generalize headings and wording instead of copying one case's project-specific content.
 - Prefer `.doc` as Word-compatible HTML when LibreOffice or a true DOC converter is unavailable. State this clearly if it matters.
@@ -84,9 +87,13 @@ Use the bundled script:
 
 ```powershell
 $py = "C:\Users\lenovo\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
+$now = Get-Date
+$target = $now.AddMonths(1)
+$outDir = "D:\Users\lenovo\Desktop\JZ\deepseek案例\$($target.Year)年$($target.Month)月"
+New-Item -ItemType Directory -Force -Path $outDir | Out-Null
 & $py "C:\Users\lenovo\.codex\skills\ai-promotion-case-doc\scripts\md_to_word_doc.py" `
-  --input "case.md" `
-  --output "case.doc"
+  --input (Join-Path $outDir "case.md") `
+  --output (Join-Path $outDir "case.doc")
 ```
 
 The script converts common Markdown headings, lists, blockquotes, inline code, and tables into Word-compatible HTML with Chinese document styling.

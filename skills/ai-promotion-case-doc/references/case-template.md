@@ -110,6 +110,10 @@ The reference Word case provided by the user uses this rhythm:
 
 Keep that rhythm, but replace project-specific sections with the target user's real project, organization, scenario, and evidence.
 
+## Output Location Note
+
+When generating the final Word document, use the output directory rule from `SKILL.md`: `D:\Users\lenovo\Desktop\JZ\deepseek案例\<next-month-year>年<next-month-number>月\`. Keep the Markdown source in the same folder unless the user requests another source location.
+
 ## General Adaptation
 
 Use these substitutions to avoid locking the case to one project:
