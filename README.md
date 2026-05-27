@@ -42,6 +42,7 @@ Restart Codex after installing new skills.
 | [`project-knowledge-graph`](skills/project-knowledge-graph) | Unified project knowledge graph orchestrator that chooses CodeGraph, Understand-Anything, hybrid mode, or fallback. | New repository onboarding, multi-agent planning, impact analysis, reducing repeated scans. |
 | [`codegraph-project-knowledge`](skills/codegraph-project-knowledge) | Builds, refreshes, and queries a CodeGraph-backed local project code graph. | Semantic code search, symbols, callers, candidate files, implementation entry points, impact analysis. |
 | [`understand-anything-project-knowledge`](skills/understand-anything-project-knowledge) | Builds and reuses Understand-Anything project knowledge graph context. | Visual project maps, dashboard/chat/explain/diff workflows, shared project understanding. |
+| [`concise-requirement-refiner`](skills/concise-requirement-refiner) | Rewrites fuzzy Chinese business notes into concise field-focused requirement drafts. | Requirement整理, field notes, approval flow drafts, management list/filter/operation notes. |
 
 ---
 
@@ -71,6 +72,14 @@ Understand-Anything-only skill:
 python <skill-installer-dir>/scripts/install-skill-from-github.py \
   --repo TT-james/codex-skills \
   --path skills/understand-anything-project-knowledge
+```
+
+Concise requirement refiner:
+
+```bash
+python <skill-installer-dir>/scripts/install-skill-from-github.py \
+  --repo TT-james/codex-skills \
+  --path skills/concise-requirement-refiner
 ```
 
 ### Option 2: Manual Copy
@@ -122,6 +131,12 @@ Use Understand-Anything directly when you need a project map:
 
 ```text
 Use $understand-anything-project-knowledge to build a visual/chat-oriented project map.
+```
+
+Use the concise requirement refiner when you need a short implementation-ready business requirement:
+
+```text
+Use $concise-requirement-refiner to整理下面这段需求，输出简洁字段化版本：...
 ```
 
 ---
@@ -179,6 +194,8 @@ If a tool is not installed, the skills instruct Codex to record the failure and 
 | [中文技能目录](docs/zh-CN/SKILL_CATALOG.md) | 中文技能能力矩阵和选择建议。 |
 | [Troubleshooting](docs/TROUBLESHOOTING.md) | Common install, loading, and graph-tool issues. |
 | [中文排障指南](docs/zh-CN/TROUBLESHOOTING.md) | 中文常见问题处理。 |
+| [Concise Requirement Refiner](docs/CONCISE_REQUIREMENT_REFINER.md) | English guide for the concise requirement整理 skill. |
+| [简洁需求整理技能](docs/zh-CN/CONCISE_REQUIREMENT_REFINER.md) | 中文说明：技能用途、安装方式、Codex 调用方式和输出格式。 |
 | [Contributing](CONTRIBUTING.md) | How to add or update skills in this repository. |
 
 ---
@@ -190,6 +207,7 @@ skills/
   project-knowledge-graph/
   codegraph-project-knowledge/
   understand-anything-project-knowledge/
+  concise-requirement-refiner/
 
 plugins/
   knowledge-graph-skills/
