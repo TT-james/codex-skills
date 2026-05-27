@@ -37,11 +37,16 @@ Restart Codex after installing new skills.
 
 ## Included Skills
 
+<!-- sync-skills:skills:start -->
 | Skill | Purpose | Best For |
 |---|---|---|
 | [`project-knowledge-graph`](skills/project-knowledge-graph) | Unified project knowledge graph orchestrator that chooses CodeGraph, Understand-Anything, hybrid mode, or fallback. | New repository onboarding, multi-agent planning, impact analysis, reducing repeated scans. |
 | [`codegraph-project-knowledge`](skills/codegraph-project-knowledge) | Builds, refreshes, and queries a CodeGraph-backed local project code graph. | Semantic code search, symbols, callers, candidate files, implementation entry points, impact analysis. |
 | [`understand-anything-project-knowledge`](skills/understand-anything-project-knowledge) | Builds and reuses Understand-Anything project knowledge graph context. | Visual project maps, dashboard/chat/explain/diff workflows, shared project understanding. |
+| [`skill-library-manager`](skills/skill-library-manager) | Audits, curates, deduplicates, installs, validates, and publishes Codex skill libraries. | Skill discovery, active-vs-backup decisions, safer global stacks, and team skill governance. |
+| [`sync-skills-to-github`](skills/sync-skills-to-github) | Synchronizes local Codex skills to GitHub while preserving established repository templates. | Publishing local skills to GitHub without disturbing README layout or hand-written docs. |
+| [`ai-promotion-case-doc`](skills/ai-promotion-case-doc) | Generates reusable Chinese AI promotion case documents from Codex work evidence and history. | AI adoption stories, team enablement cases, delivery retrospectives, and management-facing Word reports. |
+<!-- sync-skills:skills:end -->
 
 ---
 

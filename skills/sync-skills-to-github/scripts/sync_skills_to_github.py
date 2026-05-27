@@ -18,6 +18,66 @@ DOC_FILES = ["README.md", "README.en.md", "README.zh-CN.md"]
 GENERATED_FILES = DOC_FILES
 START_MARKER = "<!-- sync-skills:skills:start -->"
 END_MARKER = "<!-- sync-skills:skills:end -->"
+SKILL_ORDER = [
+    "project-knowledge-graph",
+    "codegraph-project-knowledge",
+    "understand-anything-project-knowledge",
+    "skill-library-manager",
+    "sync-skills-to-github",
+    "ai-promotion-case-doc",
+]
+PURPOSES = {
+    "project-knowledge-graph": {
+        "en": "Unified project knowledge graph orchestrator that chooses CodeGraph, Understand-Anything, hybrid mode, or fallback.",
+        "zh": "统一的项目知识图谱编排器，可选择 CodeGraph、Understand-Anything、混合模式或回退。",
+    },
+    "codegraph-project-knowledge": {
+        "en": "Builds, refreshes, and queries a CodeGraph-backed local project code graph.",
+        "zh": "构建、刷新和查询基于 CodeGraph 的本地项目代码图。",
+    },
+    "understand-anything-project-knowledge": {
+        "en": "Builds and reuses Understand-Anything project knowledge graph context.",
+        "zh": "构建并复用 Understand-Anything 项目知识图谱上下文。",
+    },
+    "skill-library-manager": {
+        "en": "Audits, curates, deduplicates, installs, validates, and publishes Codex skill libraries.",
+        "zh": "审计、整理、去重、安装、验证和发布 Codex 技能库。",
+    },
+    "sync-skills-to-github": {
+        "en": "Synchronizes local Codex skills to GitHub while preserving established repository templates.",
+        "zh": "将本地 Codex 技能同步到 GitHub，同时保留既定仓库模板格式。",
+    },
+    "ai-promotion-case-doc": {
+        "en": "Generates reusable Chinese AI promotion case documents from Codex work evidence and history.",
+        "zh": "基于 Codex 工作证据和历史记录生成可复用的中文 AI 推广案例文档。",
+    },
+}
+BEST_FOR = {
+    "project-knowledge-graph": {
+        "en": "New repository onboarding, multi-agent planning, impact analysis, reducing repeated scans.",
+        "zh": "新仓库入职、多智能体规划、影响分析、减少重复扫描。",
+    },
+    "codegraph-project-knowledge": {
+        "en": "Semantic code search, symbols, callers, candidate files, implementation entry points, impact analysis.",
+        "zh": "语义代码搜索、符号、调用者、候选文件、实现入口点、影响分析。",
+    },
+    "understand-anything-project-knowledge": {
+        "en": "Visual project maps, dashboard/chat/explain/diff workflows, shared project understanding.",
+        "zh": "可视化项目地图、仪表板/聊天/解释/差异工作流、共享项目理解。",
+    },
+    "skill-library-manager": {
+        "en": "Skill discovery, active-vs-backup decisions, safer global stacks, and team skill governance.",
+        "zh": "技能发现、启用/备份决策、更安全的全局技能栈和团队技能治理。",
+    },
+    "sync-skills-to-github": {
+        "en": "Publishing local skills to GitHub without disturbing README layout or hand-written docs.",
+        "zh": "发布本地技能到 GitHub，且不破坏 README 排版或手写文档。",
+    },
+    "ai-promotion-case-doc": {
+        "en": "AI adoption stories, team enablement cases, delivery retrospectives, and management-facing Word reports.",
+        "zh": "AI 应用案例、团队推广材料、交付复盘和面向管理层的 Word 汇报文档。",
+    },
+}
 
 
 @dataclass
@@ -124,12 +184,38 @@ def sync_skill_files(skills: list[SkillInfo], repo_dir: Path) -> None:
         shutil.copytree(skill.source, destination, ignore=ignore_patterns)
 
 
+def ordered_skills(skills: list[SkillInfo]) -> list[SkillInfo]:
+    priority = {name: index for index, name in enumerate(SKILL_ORDER)}
+    return sorted(skills, key=lambda skill: (priority.get(skill.name, len(priority)), skill.name.lower()))
+
+
+def short_description(skill: SkillInfo) -> str:
+    first_sentence = skill.description.split(". ", 1)[0].strip()
+    if first_sentence and not first_sentence.endswith("."):
+        first_sentence += "."
+    return first_sentence or skill.description
+
+
+def table_value(skill: SkillInfo, values: dict[str, dict[str, str]], language: str, fallback: str) -> str:
+    localized = values.get(skill.name, {})
+    return localized.get(language) or localized.get("en") or fallback
+
+
 def render_skill_table(skills: list[SkillInfo], language: str) -> str:
     if language == "zh":
-        header = "| 技能 | 用途 | 路径 |\n| --- | --- | --- |"
+        header = "| 技能 | 用途 | 最适合 |\n|---|---|---|"
     else:
-        header = "| Skill | What it does | Path |\n| --- | --- | --- |"
-    rows = "\n".join(f"| `{skill.name}` | {skill.description} | `{skill.destination}` |" for skill in skills)
+        header = "| Skill | Purpose | Best For |\n|---|---|---|"
+    rows = "\n".join(
+        "| "
+        + f"[`{skill.name}`]({skill.destination})"
+        + " | "
+        + table_value(skill, PURPOSES, language, short_description(skill))
+        + " | "
+        + table_value(skill, BEST_FOR, language, "Tasks that match this skill's trigger description.")
+        + " |"
+        for skill in ordered_skills(skills)
+    )
     return f"{START_MARKER}\n{header}\n{rows}\n{END_MARKER}"
 
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI Promotion Case Doc"
+  short_description: "Generate AI推广案例 Word docs from Codex history"
+  default_prompt: "Use $ai-promotion-case-doc to turn this Codex historical session or notes into an AI推广案例 Word document."

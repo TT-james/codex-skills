@@ -35,11 +35,16 @@ python <skill-installer-dir>/scripts/install-skill-from-github.py \
 
 ## 已包含技能
 
-| 技能名称 | 作用 | 适用场景 |
+<!-- sync-skills:skills:start -->
+| 技能 | 用途 | 最适合 |
 |---|---|---|
-| [`project-knowledge-graph`](skills/project-knowledge-graph) | 融合版项目知识图谱技能，会根据环境选择 CodeGraph、Understand-Anything、双工具混合模式或 `rg` 降级模式。 | 推荐优先安装。适合新项目接入、多 Agent 上下文准备、影响面分析、减少重复检索。 |
-| [`codegraph-project-knowledge`](skills/codegraph-project-knowledge) | 基于 CodeGraph 构建、刷新和查询本地项目代码图谱。 | 适合语义代码搜索、符号定位、调用关系、候选文件筛选、入口点分析。 |
-| [`understand-anything-project-knowledge`](skills/understand-anything-project-knowledge) | 基于 Understand-Anything 构建和复用项目知识图谱上下文。 | 适合可视化项目地图、聊天式项目理解、差异解释、团队共享项目认知。 |
+| [`project-knowledge-graph`](skills/project-knowledge-graph) | 统一的项目知识图谱编排器，可选择 CodeGraph、Understand-Anything、混合模式或回退。 | 新仓库入职、多智能体规划、影响分析、减少重复扫描。 |
+| [`codegraph-project-knowledge`](skills/codegraph-project-knowledge) | 构建、刷新和查询基于 CodeGraph 的本地项目代码图。 | 语义代码搜索、符号、调用者、候选文件、实现入口点、影响分析。 |
+| [`understand-anything-project-knowledge`](skills/understand-anything-project-knowledge) | 构建并复用 Understand-Anything 项目知识图谱上下文。 | 可视化项目地图、仪表板/聊天/解释/差异工作流、共享项目理解。 |
+| [`skill-library-manager`](skills/skill-library-manager) | 审计、整理、去重、安装、验证和发布 Codex 技能库。 | 技能发现、启用/备份决策、更安全的全局技能栈和团队技能治理。 |
+| [`sync-skills-to-github`](skills/sync-skills-to-github) | 将本地 Codex 技能同步到 GitHub，同时保留既定仓库模板格式。 | 发布本地技能到 GitHub，且不破坏 README 排版或手写文档。 |
+| [`ai-promotion-case-doc`](skills/ai-promotion-case-doc) | 基于 Codex 工作证据和历史记录生成可复用的中文 AI 推广案例文档。 | AI 应用案例、团队推广材料、交付复盘和面向管理层的 Word 汇报文档。 |
+<!-- sync-skills:skills:end -->
 
 ---
 
