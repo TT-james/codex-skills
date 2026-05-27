@@ -2,6 +2,8 @@
 
 This repository collects reusable Codex skills created for project knowledge graph workflows.
 
+中文说明: [README.zh-CN.md](README.zh-CN.md)
+
 ## Included Skills
 
 | Skill | Purpose | Best For |
