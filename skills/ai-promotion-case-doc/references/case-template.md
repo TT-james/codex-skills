@@ -49,11 +49,11 @@ AI做了什么：
 结果：
 <该步骤形成的业务、工程或文档结果。>
 
-## 三、<项目或组织> 针对性设计
+## 三、<项目/组织/场景> 针对性设计
 
 | 设计点 | 对应内容 | 落地方式 |
 |---|---|---|
-| 场景边界 | <业务、技术、流程或文档边界> | <AI 如何按边界处理> |
+| 场景边界 | <业务、技术、流程、文档或协作边界> | <AI 如何按边界处理> |
 | 证据链复用 | <历史会话、代码、测试、文档、截图等> | <如何抽取并转化为案例> |
 | 质量控制 | <验证、复核、敏感信息过滤> | <如何避免夸大或泄露> |
 
@@ -108,7 +108,19 @@ The reference Word case provided by the user uses this rhythm:
 5. Team reuse value by role.
 6. Final summary with achievements, efficiency comparison, promotion value, and reusable prompt.
 
-Keep that rhythm, but replace project-specific sections with the target user's real project, organization, and evidence.
+Keep that rhythm, but replace project-specific sections with the target user's real project, organization, scenario, and evidence.
+
+## General Adaptation
+
+Use these substitutions to avoid locking the case to one project:
+
+| Source-specific wording | Generic replacement |
+|---|---|
+| `<某项目> 针对性设计` | `<项目/组织/场景> 针对性设计` |
+| `<某技术栈> 边界` | `技术或流程边界` |
+| `<固定输出目录>` | `用户指定目录或当前工作区案例目录` |
+| `<固定作者>` | `用户指定作者、团队或留空` |
+| `<项目专属流程>` | `源证据中实际使用的流程` |
 
 ## Avoid
 
