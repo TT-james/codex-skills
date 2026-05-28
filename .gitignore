@@ -4,3 +4,5 @@ __pycache__/
 .codegraph/
 .understand-anything/
 *.zip
+!packages/
+!packages/install-github-skills.zip

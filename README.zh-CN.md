@@ -43,6 +43,30 @@
 
 ## 安装方式
 
+建议先安装安装器技能，然后使用 `$install-github-skills` 从本仓库安装其他技能：
+
+```bash
+python <skill-installer-dir>/scripts/install-skill-from-github.py \
+  --repo TT-james/codex-skills \
+  --path skills/install-github-skills
+```
+
+Windows 示例：
+
+```powershell
+python "$env:USERPROFILE\.codex\skills\.system\skill-installer\scripts\install-skill-from-github.py" `
+  --repo TT-james/codex-skills `
+  --path skills/install-github-skills
+```
+
+也可以直接下载打包好的 ZIP：
+
+```text
+https://github.com/TT-james/codex-skills/raw/main/packages/install-github-skills.zip
+```
+
+解压到 `~/.codex/skills/` 或 `C:\Users\<你的用户名>\.codex\skills\`，然后重启 Codex。
+
 通过 GitHub 安装单个技能：
 
 ```bash
@@ -89,6 +113,9 @@ skills/
     agents/
     references/
     scripts/
+
+packages/
+  install-github-skills.zip
 
 CONTRIBUTING.md
 LICENSE

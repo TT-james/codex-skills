@@ -43,6 +43,30 @@ This repository collects self-built Codex skills, references, and helper scripts
 
 ## Install
 
+Bootstrap the installer skill first, then use `$install-github-skills` to install other skills from this repository:
+
+```bash
+python <skill-installer-dir>/scripts/install-skill-from-github.py \
+  --repo TT-james/codex-skills \
+  --path skills/install-github-skills
+```
+
+Windows example:
+
+```powershell
+python "$env:USERPROFILE\.codex\skills\.system\skill-installer\scripts\install-skill-from-github.py" `
+  --repo TT-james/codex-skills `
+  --path skills/install-github-skills
+```
+
+You can also download the packaged ZIP:
+
+```text
+https://github.com/TT-james/codex-skills/raw/main/packages/install-github-skills.zip
+```
+
+Unzip it into `~/.codex/skills/` or `C:\Users\<you>\.codex\skills\`, then restart Codex.
+
 Install one skill from GitHub:
 
 ```bash
@@ -89,6 +113,9 @@ skills/
     agents/
     references/
     scripts/
+
+packages/
+  install-github-skills.zip
 
 CONTRIBUTING.md
 LICENSE
