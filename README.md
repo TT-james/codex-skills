@@ -37,6 +37,7 @@ This repository collects self-built Codex skills, references, and helper scripts
 | [`understand-anything-project-knowledge`](skills/understand-anything-project-knowledge) | Builds and reuses Understand-Anything project knowledge graph context. | Visual project maps, dashboard/chat/explain/diff workflows, shared project understanding. |
 | [`skill-library-manager`](skills/skill-library-manager) | Audits, curates, deduplicates, installs, validates, and publishes Codex skill libraries. | Skill discovery, active-vs-backup decisions, safer global stacks, and team skill governance. |
 | [`sync-skills-to-github`](skills/sync-skills-to-github) | Synchronizes local Codex skills to GitHub while preserving established repository templates. | Publishing local skills to GitHub without disturbing README layout or hand-written docs. |
+| [`install-github-skills`](skills/install-github-skills) | Installs, lists, updates, and removes Codex skills from a GitHub skills repository. | Team skill distribution from TT-james/codex-skills or another GitHub skill hub. |
 | [`ai-promotion-case-doc`](skills/ai-promotion-case-doc) | Generates reusable Chinese AI promotion case documents from Codex work evidence and history. | AI adoption stories, team enablement cases, delivery retrospectives, and management-facing Word reports. |
 <!-- sync-skills:skills:end -->
 

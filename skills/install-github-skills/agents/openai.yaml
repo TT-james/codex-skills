@@ -1,0 +1,4 @@
+interface:
+  display_name: "Install GitHub Skills"
+  short_description: "Install and update Codex skills from GitHub repositories."
+  default_prompt: "Use $install-github-skills to install selected Codex skills from TT-james/codex-skills."

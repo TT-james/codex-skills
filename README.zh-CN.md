@@ -37,6 +37,7 @@
 | [`understand-anything-project-knowledge`](skills/understand-anything-project-knowledge) | 构建并复用 Understand-Anything 项目知识图谱上下文。 | 可视化项目地图、仪表板/聊天/解释/差异工作流、共享项目理解。 |
 | [`skill-library-manager`](skills/skill-library-manager) | 审计、整理、去重、安装、验证和发布 Codex 技能库。 | 技能发现、启用/备份决策、更安全的全局技能栈和团队技能治理。 |
 | [`sync-skills-to-github`](skills/sync-skills-to-github) | 将本地 Codex 技能同步到 GitHub，同时保留既定仓库模板格式。 | 发布本地技能到 GitHub，且不破坏 README 排版或手写文档。 |
+| [`install-github-skills`](skills/install-github-skills) | 从 GitHub 技能仓库列出、安装、更新和移除 Codex 技能。 | 从 TT-james/codex-skills 或其他 GitHub 技能中心分发团队技能。 |
 | [`ai-promotion-case-doc`](skills/ai-promotion-case-doc) | 基于 Codex 工作证据和历史记录生成可复用的中文 AI 推广案例文档。 | AI 应用案例、团队推广材料、交付复盘和面向管理层的 Word 汇报文档。 |
 <!-- sync-skills:skills:end -->
 
