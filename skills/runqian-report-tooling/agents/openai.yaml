@@ -1,0 +1,4 @@
+interface:
+  display_name: "Runqian Report Tooling"
+  short_description: "Inspect, edit, print, and validate Runqian RPX report datasets."
+  default_prompt: "Use this skill to inspect or modify a Runqian RPX report, extract dataset SQL, print SQL with parameters, migrate data sources, fix mojibake, and validate changes."
