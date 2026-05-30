@@ -20,6 +20,17 @@ Fallback files should include:
 2. Skill index: skill name, description, and repository path.
 3. How to use in Codex: copy or install the skill folder into `~/.codex/skills`, then invoke it by `$skill-name` or by asking for a matching task.
 4. How to update: run the sync skill from the local Codex environment.
+
+## Bilingual Skill Documentation
+
+Every published skill must provide both English and Chinese documentation.
+
+- English is required for frontmatter `description` and repository-wide skill tables.
+- Chinese is required in the skill body, usually as a Chinese summary, usage notes, or bilingual section.
+- If a source skill has only Chinese notes, add an English summary before syncing.
+- If a source skill has only English notes, add a Chinese summary before syncing.
+- Do not remove project-specific Chinese business terms when adding English; keep both versions side by side when the context matters.
+
 ## Marker Blocks
 
 Existing docs are updated only inside this explicit marker pair:

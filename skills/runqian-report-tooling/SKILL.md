@@ -5,6 +5,12 @@ description: Work with Runqian/Raqsoft `.rpx` report templates in this Matrix Cl
 
 # Runqian Report Tooling
 
+## 中文说明
+
+本技能用于处理 Matrix Cloud 项目中的润乾 / Raqsoft `.rpx` 报表模板，适用于打开和检查报表、抽取所有数据集 SQL、按运行参数打印可对比 SQL、替换数据源和表字段、修复中文乱码、校验报表 SQL，以及通过复制旧报表生成新报表。
+
+处理润乾报表时优先使用本技能内的脚本和润乾 Java API。不要直接编辑 RPX 二进制文件；修改前必须备份，修改后必须回读检查数据集、数据源、参数数量、分组字段和中文显示。
+
 ## Scope
 
 Use this skill for Runqian/Raqsoft report files such as:

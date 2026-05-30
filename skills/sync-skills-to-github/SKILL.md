@@ -16,6 +16,7 @@ Use this skill to publish local Codex skills into a GitHub repository while pres
    - Existing root documentation is preserved by default.
    - `README.md`, `README.en.md`, and `README.zh-CN.md` are created only when missing.
    - Existing documentation is updated only inside explicit sync marker blocks.
+   - Each published skill must include bilingual documentation: an English description plus a Chinese description or Chinese usage section. If a skill only has one language, add the missing language before syncing.
 4. Run a real sync only after checking the dry-run output or when the user explicitly asks to upload/push now.
 5. Report changed skills, preserved documentation files, updated marker blocks, commit status, and whether the push succeeded.
 
@@ -79,6 +80,15 @@ To let the script update a skill index inside an existing README, add this marke
 ```
 
 If a README has no marker pair, the script must leave it unchanged and only sync `skills/`.
+
+## Bilingual Skill Requirement
+
+Every skill uploaded to the GitHub skills repository must be usable by both Chinese and English readers.
+
+- Keep the frontmatter `description` in English for Codex skill discovery compatibility.
+- Add a Chinese summary or Chinese usage section in `SKILL.md` before syncing.
+- When a skill is generated from a Chinese project task, preserve the Chinese business context and add an English counterpart instead of replacing it.
+- Before pushing, quickly inspect newly added or changed skills and confirm both languages are present.
 
 ## Safety
 
