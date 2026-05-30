@@ -24,7 +24,9 @@ SKILL_ORDER = [
     "understand-anything-project-knowledge",
     "skill-library-manager",
     "sync-skills-to-github",
+    "install-github-skills",
     "ai-promotion-case-doc",
+    "runqian-report-tooling",
 ]
 PURPOSES = {
     "project-knowledge-graph": {
@@ -47,9 +49,17 @@ PURPOSES = {
         "en": "Synchronizes local Codex skills to GitHub while preserving established repository templates.",
         "zh": "将本地 Codex 技能同步到 GitHub，同时保留既定仓库模板格式。",
     },
+    "install-github-skills": {
+        "en": "Installs, updates, lists, and removes Codex skills from a GitHub skills repository.",
+        "zh": "从 GitHub 技能仓库安装、更新、列出或移除 Codex 技能。",
+    },
     "ai-promotion-case-doc": {
         "en": "Generates reusable Chinese AI promotion case documents from Codex work evidence and history.",
         "zh": "基于 Codex 工作证据和历史记录生成可复用的中文 AI 推广案例文档。",
+    },
+    "runqian-report-tooling": {
+        "en": "Inspects, extracts, edits, validates, and parameter-expands Runqian/Raqsoft RPX report dataset SQL.",
+        "zh": "检查、抽取、修改、校验并按参数展开润乾 / Raqsoft RPX 报表数据集 SQL。",
     },
 }
 BEST_FOR = {
@@ -73,9 +83,17 @@ BEST_FOR = {
         "en": "Publishing local skills to GitHub without disturbing README layout or hand-written docs.",
         "zh": "发布本地技能到 GitHub，且不破坏 README 排版或手写文档。",
     },
+    "install-github-skills": {
+        "en": "Keeping a local Codex skill set in sync with a shared GitHub skills repository.",
+        "zh": "让本地 Codex 技能集与共享 GitHub 技能仓库保持同步。",
+    },
     "ai-promotion-case-doc": {
         "en": "AI adoption stories, team enablement cases, delivery retrospectives, and management-facing Word reports.",
         "zh": "AI 应用案例、团队推广材料、交付复盘和面向管理层的 Word 汇报文档。",
+    },
+    "runqian-report-tooling": {
+        "en": "Runqian report migration, dataset SQL comparison, datasource switching, mojibake repair, and RPX readback checks.",
+        "zh": "润乾报表迁移、数据集 SQL 对比、数据源切换、中文乱码修复和 RPX 回读校验。",
     },
 }
 
